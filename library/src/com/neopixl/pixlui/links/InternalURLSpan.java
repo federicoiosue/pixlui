@@ -20,6 +20,6 @@ public class InternalURLSpan extends ClickableSpan {
 
 	@Override
 	public void onClick(View view) {
-		mTextLinkClickListener.onTextLinkClick(view, clickedSpan);
+		mTextLinkClickListener.onTextLinkClick(view, clickedSpan, UrlCompleter.complete(clickedSpan));
 	}
 }

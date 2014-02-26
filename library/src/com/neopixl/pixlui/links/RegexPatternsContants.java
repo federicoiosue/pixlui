@@ -21,13 +21,14 @@ import java.util.regex.Pattern;
 
 public class RegexPatternsContants {
 	
+	
 	// Pattern for gathering @usernames 
 	public static final Pattern SCREEN_NAME = Pattern.compile("(@[a-zA-Z0-9_]+)");
 
 	// Pattern for gathering #hasttags 
 	public static final Pattern HASH_TAG = Pattern.compile("(#[a-zA-Z0-9_-]+)");
 
-	// Pattern for gathering http:// or www links
+	// Pattern for gathering http:// links
 	public static final Pattern HYPER_LINK = Pattern
 //			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
 			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/([wW][wW][wW]\\.)*[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
@@ -45,10 +46,24 @@ public class RegexPatternsContants {
 //			.compile("^([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
 			.compile("([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})");
 	
+	// Pattern for gathering www adresses
+	public static final Pattern WWW = Pattern
+//			.compile("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+//			.compile("^([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+			.compile("([wW][wW][wW]\\.)+[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})");
+	
 	// Pattern for gathering IP adresses
 	public static final Pattern IP_ADDRESS = Pattern
 			.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
 					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
+	
+	
+	
+
+	/**
+	 * Insert here the pattern you want to match in EditText
+	 */
+	public static final Pattern[] patterns = {HYPER_LINK, EMAIL, WWW};
 }

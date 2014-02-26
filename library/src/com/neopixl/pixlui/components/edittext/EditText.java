@@ -66,6 +66,7 @@ import com.neopixl.pixlui.links.Hyperlink;
 import com.neopixl.pixlui.links.InternalURLSpan;
 import com.neopixl.pixlui.links.RegexPatternsContants;
 import com.neopixl.pixlui.links.TextLinkClickListener;
+import com.neopixl.pixlui.links.UrlCompleter;
 
 /**
  * Provide more possibility with EditText and enable new methods on old api
@@ -813,11 +814,13 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		linkableText = new SpannableString(text);
 		listOfLinks = new ArrayList<Hyperlink>();
 		
-//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.SCREEN_NAME);
-//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HASH_TAG);
-		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
-		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.EMAIL);
-		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.DOMAIN);
+//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
+//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.EMAIL);
+//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.WWW);
+		
+		for (Pattern pattern : RegexPatternsContants.patterns) {
+			gatherLinks(listOfLinks, linkableText, pattern);
+		}
 
 		for (int i = 0; i < listOfLinks.size(); i++) {
 			Hyperlink linkSpec = listOfLinks.get(i);
@@ -897,7 +900,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 				Log.v("PixlUI", "onClick() on position " + cursorPosition);
 				for (Hyperlink link : listOfLinks) {
 					if (cursorPosition >= link.start && cursorPosition <= link.end) {
-						this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString());
+						this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString(), UrlCompleter.complete(link.textSpan.toString()));
 					}
 				}
 			}
