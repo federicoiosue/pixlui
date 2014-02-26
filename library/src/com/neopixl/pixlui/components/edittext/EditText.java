@@ -19,6 +19,7 @@ package com.neopixl.pixlui.components.edittext;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -115,6 +116,8 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	private boolean mCustomPassWordTransformation;
 
 	private InputMethodManager mImm;
+	private long lastClick;
+	private final long DOUBLE_CLICK_DELAY = 300;
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
@@ -126,7 +129,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		super(context);
 		editTextVersion();
 
-		listOfLinks = new ArrayList<Hyperlink>();
 		setOnClickListener(this);
 	}
 
@@ -141,7 +143,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			setAllCaps(context, attrs);
 		}
 
-		listOfLinks = new ArrayList<Hyperlink>();
 		setOnClickListener(this);
 	}
 
@@ -156,7 +157,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			setAllCaps(context, attrs);
 		}
 
-		listOfLinks = new ArrayList<Hyperlink>();
 		setOnClickListener(this);
 	}
 
@@ -395,7 +395,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			Rect previouslyFocusedRect) {
 		EditTextFocusListener listener = getFocusListener();
 		if (listener != null) {
-			if (focused) {
+			if (focused) {				
 				listener.requestFocus(this);
 			} else {
 				listener.loseFocus(this);
@@ -411,6 +411,11 @@ public class EditText extends android.widget.EditText implements OnClickListener
 				mImm.hideSoftInputFromWindow(this.getWindowToken(), 0);
 			}
 			mImm.toggleSoftInput(0, 0);
+		}
+		
+		// Registers time for measuring a double-click event
+		if (focused) {
+			lastClick = Calendar.getInstance().getTimeInMillis();
 		}
 	}
 
@@ -606,6 +611,8 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			if(listener!=null && count == 1){
 				listener.addNewChar(getEdittext());
 			}
+			
+			updateLinksSpan(start, count - before);
 		}
 
 		public EditText getEdittext() {
@@ -790,38 +797,39 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	}
 	
 	
+	/**
+	 * Collects the Links depending upon the Pattern that we supply
+	 * and add the links to the ArrayList of the links		
+	 */
 	public void gatherLinksForText() {
 		String text = getText().toString();
 		linkableText = new SpannableString(text);
-		// gatherLinks basically collects the Links depending upon the Pattern
-		// that we supply
-		// and add the links to the ArrayList of the links
-
+		listOfLinks = new ArrayList<Hyperlink>();
+		
 		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.SCREEN_NAME);
 		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HASH_TAG);
 		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
 
 		for (int i = 0; i < listOfLinks.size(); i++) {
 			Hyperlink linkSpec = listOfLinks.get(i);
-			android.util.Log.v("listOfLinks :: " + linkSpec.textSpan,
-					"'listOfLinks :: " + linkSpec.textSpan);
 
 			// this process here makes the Clickable Links from the text
-
 			linkableText.setSpan(linkSpec.span, linkSpec.start, linkSpec.end,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 
 		// sets the text for the TextView with enabled links
-
 		setText(linkableText);
 	}
 	
 	
-	// The Method mainly performs the Regex Comparison for the Pattern and adds
-		// them to
-		// listOfLinks array list
 
+	/**
+	 * Performs the Regex Comparison for the Pattern and adds them to listOfLinks array list
+	 * @param links
+	 * @param s
+	 * @param pattern
+	 */
 	private final void gatherLinks(ArrayList<Hyperlink> links, Spannable s, Pattern pattern) {
 		// Matcher matching the pattern
 		Matcher m = pattern.matcher(s);
@@ -831,9 +839,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			int end = m.end();
 
 			// Hyperlink is basically used like a structure for storing the
-			// information about
-			// where the link was found.
-
+			// information about where the link was found.
 			Hyperlink spec = new Hyperlink();
 
 			spec.textSpan = s.subSequence(start, end);
@@ -844,27 +850,49 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			links.add(spec);
 		}
 	}
+	
+	
+	/**
+	 * Updates all the parsed links start/end index on new text insertion (onTextChanged callback is used)
+	 * @param start Start of text modification
+	 * @param count Characters inserted
+	 */
+	private void updateLinksSpan(int start, int count) {
+		if (listOfLinks != null) {
+			for (Hyperlink link : listOfLinks) {
+				if (link.start > start) {
+					link.start += count;
+					link.end += count;
+				}
+			}
+		}
+	}
+	
 
 	// sets the Listener for later click propagation purpose
-
 	public void setOnTextLinkClickListener(TextLinkClickListener newListener) {
 		this.mTextLinkClickListener = newListener;
 	}
 
-	public void getOnTextLinkClickListener() {
-		return this.mTextLinkClickListener;
-	}
-
+	
 
 	@Override
 	public void onClick(View v) {
-		if (mTextLinkClickListener != null) {
-			int cursorPosition = ((EditText)v).getSelectionStart();
-			for (Hyperlink link : listOfLinks) {
-				if (cursorPosition > link.start && cursorPosition < link.end) {
-					this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString());
+		long now = Calendar.getInstance().getTimeInMillis();
+		long delay = now - lastClick;
+		lastClick = now;
+		if (delay < DOUBLE_CLICK_DELAY ) {
+			if (mTextLinkClickListener != null) {
+				int cursorPosition = ((EditText)v).getSelectionStart();
+				for (Hyperlink link : listOfLinks) {
+					if (cursorPosition > link.start && cursorPosition < link.end) {
+						this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString());
+					}
 				}
 			}
-		}		
+		}
+		requestFocusFromTouch();
 	}
+
+	
 }

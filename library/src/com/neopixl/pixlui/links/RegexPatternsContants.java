@@ -29,5 +29,23 @@ public class RegexPatternsContants {
 
 	// Pattern for gathering http:// or www links
 	public static final Pattern HYPER_LINK = Pattern
-			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
+//			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
+			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/([wW][wW][wW]\\.)*[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)])");
+	
+	// Pattern for gathering e-mail
+	public static final Pattern EMAIL = Pattern
+			.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	
+	// Pattern for gathering internet domains
+	public static final Pattern DOMAIN = Pattern
+//			.compile("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+			.compile("^([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+	
+	// Pattern for gathering IP adresses
+	public static final Pattern IP_ADDRESS = Pattern
+			.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
+					"([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 }
