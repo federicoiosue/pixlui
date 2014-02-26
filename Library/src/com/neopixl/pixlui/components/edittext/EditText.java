@@ -17,7 +17,11 @@ permissions and limitations under the License.
  */
 package com.neopixl.pixlui.components.edittext;
 
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -29,6 +33,8 @@ import android.graphics.Typeface;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ActionMode;
@@ -40,6 +46,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -51,13 +58,25 @@ import com.android.export.AllCapsTransformationMethod;
 import com.neopixl.pixlui.components.textview.FontFactory;
 import com.neopixl.pixlui.intern.CustomPasswordTransformationMethod;
 import com.neopixl.pixlui.intern.PixlUIContants;
+import com.neopixl.pixlui.links.Hyperlink;
+import com.neopixl.pixlui.links.InternalURLSpan;
+import com.neopixl.pixlui.links.RegexPatternsContants;
+import com.neopixl.pixlui.links.TextLinkClickListener;
 
 /**
  * Provide more possibility with EditText and enable new methods on old api
  * 
  * @author Olivier Demolliens. @odemolliens Dev with Neopixl
  */
-public class EditText extends android.widget.EditText {
+public class EditText extends android.widget.EditText implements OnClickListener {
+	
+
+	private SpannableString linkableText;
+	// The String Containing the Text that we have to gather links from private
+	// SpannableString linkableText;
+	// Populating and gathering all the links that are present in the Text
+	private ArrayList<Hyperlink> listOfLinks;
+	private TextLinkClickListener mTextLinkClickListener;
 
 	/**
 	 * XML Attribute
@@ -106,6 +125,9 @@ public class EditText extends android.widget.EditText {
 	public EditText(Context context) {
 		super(context);
 		editTextVersion();
+
+		listOfLinks = new ArrayList<Hyperlink>();
+		setOnClickListener(this);
 	}
 
 	public EditText(Context context, AttributeSet attrs) {
@@ -118,6 +140,9 @@ public class EditText extends android.widget.EditText {
 		if (isOldDeviceTextAllCaps()) {
 			setAllCaps(context, attrs);
 		}
+
+		listOfLinks = new ArrayList<Hyperlink>();
+		setOnClickListener(this);
 	}
 
 	public EditText(Context context, AttributeSet attrs, int defStyle) {
@@ -130,6 +155,9 @@ public class EditText extends android.widget.EditText {
 		if (isOldDeviceTextAllCaps()) {
 			setAllCaps(context, attrs);
 		}
+
+		listOfLinks = new ArrayList<Hyperlink>();
+		setOnClickListener(this);
 	}
 
 	/**
@@ -759,5 +787,80 @@ public class EditText extends android.widget.EditText {
 		if(this.mCustomPassWordTransformation){
 			this.setTransformationMethod(new CustomPasswordTransformationMethod());
 		}
+	}
+	
+	
+	public void gatherLinksForText() {
+		String text = getText().toString();
+		linkableText = new SpannableString(text);
+		// gatherLinks basically collects the Links depending upon the Pattern
+		// that we supply
+		// and add the links to the ArrayList of the links
+
+		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.SCREEN_NAME);
+		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HASH_TAG);
+		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
+
+		for (int i = 0; i < listOfLinks.size(); i++) {
+			Hyperlink linkSpec = listOfLinks.get(i);
+			android.util.Log.v("listOfLinks :: " + linkSpec.textSpan,
+					"'listOfLinks :: " + linkSpec.textSpan);
+
+			// this process here makes the Clickable Links from the text
+
+			linkableText.setSpan(linkSpec.span, linkSpec.start, linkSpec.end,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		// sets the text for the TextView with enabled links
+
+		setText(linkableText);
+	}
+	
+	
+	// The Method mainly performs the Regex Comparison for the Pattern and adds
+		// them to
+		// listOfLinks array list
+
+	private final void gatherLinks(ArrayList<Hyperlink> links, Spannable s, Pattern pattern) {
+		// Matcher matching the pattern
+		Matcher m = pattern.matcher(s);
+
+		while (m.find()) {
+			int start = m.start();
+			int end = m.end();
+
+			// Hyperlink is basically used like a structure for storing the
+			// information about
+			// where the link was found.
+
+			Hyperlink spec = new Hyperlink();
+
+			spec.textSpan = s.subSequence(start, end);
+			spec.span = new InternalURLSpan(spec.textSpan.toString());
+			spec.start = start;
+			spec.end = end;
+
+			links.add(spec);
+		}
+	}
+
+	// sets the Listener for later click propagation purpose
+
+	public void setOnTextLinkClickListener(TextLinkClickListener newListener) {
+		this.mTextLinkClickListener = newListener;
+	}
+
+
+	@Override
+	public void onClick(View v) {
+		if (mTextLinkClickListener != null) {
+			int cursorPosition = ((EditText)v).getSelectionStart();
+			for (Hyperlink link : listOfLinks) {
+				if (cursorPosition > link.start && cursorPosition < link.end) {
+					this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString());
+				}
+			}
+		}		
 	}
 }
