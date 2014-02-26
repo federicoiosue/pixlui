@@ -28,6 +28,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -38,6 +40,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.ContextMenu;
@@ -130,6 +133,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		editTextVersion();
 
 		setOnClickListener(this);
+		setLinkTextColor(getCurrentTextColor());
 	}
 
 	public EditText(Context context, AttributeSet attrs) {
@@ -144,6 +148,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		}
 
 		setOnClickListener(this);
+		setLinkTextColor(getCurrentTextColor());
 	}
 
 	public EditText(Context context, AttributeSet attrs, int defStyle) {
@@ -158,6 +163,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		}
 
 		setOnClickListener(this);
+		setLinkTextColor(getCurrentTextColor());
 	}
 
 	/**
@@ -416,6 +422,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		// Registers time for measuring a double-click event
 		if (focused) {
 			lastClick = Calendar.getInstance().getTimeInMillis();
+			Log.v("PixlUI", "onFocusChanged() on '" + getText() + "' " );
 		}
 	}
 
@@ -806,9 +813,11 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		linkableText = new SpannableString(text);
 		listOfLinks = new ArrayList<Hyperlink>();
 		
-		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.SCREEN_NAME);
-		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HASH_TAG);
+//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.SCREEN_NAME);
+//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HASH_TAG);
 		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
+		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.EMAIL);
+		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.DOMAIN);
 
 		for (int i = 0; i < listOfLinks.size(); i++) {
 			Hyperlink linkSpec = listOfLinks.get(i);
@@ -881,17 +890,18 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		long now = Calendar.getInstance().getTimeInMillis();
 		long delay = now - lastClick;
 		lastClick = now;
+		Log.v("PixlUI", "onClick() on '" + ((EditText)v).getText() + "' delay " + delay);
 		if (delay < DOUBLE_CLICK_DELAY ) {
 			if (mTextLinkClickListener != null) {
-				int cursorPosition = ((EditText)v).getSelectionStart();
+				int cursorPosition = getSelectionStart();
+				Log.v("PixlUI", "onClick() on position " + cursorPosition);
 				for (Hyperlink link : listOfLinks) {
-					if (cursorPosition > link.start && cursorPosition < link.end) {
+					if (cursorPosition >= link.start && cursorPosition <= link.end) {
 						this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString());
 					}
 				}
 			}
 		}
-		requestFocusFromTouch();
 	}
 
 	

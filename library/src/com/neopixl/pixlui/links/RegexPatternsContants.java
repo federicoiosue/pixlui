@@ -34,13 +34,16 @@ public class RegexPatternsContants {
 	
 	// Pattern for gathering e-mail
 	public static final Pattern EMAIL = Pattern
-			.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+//			.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+//					+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+	.compile("[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
 	
 	// Pattern for gathering internet domains
 	public static final Pattern DOMAIN = Pattern
 //			.compile("^[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
-			.compile("^([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+//			.compile("^([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$");
+			.compile("([wW][wW][wW]\\.)*[A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})");
 	
 	// Pattern for gathering IP adresses
 	public static final Pattern IP_ADDRESS = Pattern
