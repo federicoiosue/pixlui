@@ -851,6 +851,10 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		this.mTextLinkClickListener = newListener;
 	}
 
+	public void getOnTextLinkClickListener() {
+		return this.mTextLinkClickListener;
+	}
+
 
 	@Override
 	public void onClick(View v) {
