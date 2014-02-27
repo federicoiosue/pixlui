@@ -30,7 +30,7 @@ public class UrlCompleter {
 		for (Pattern pattern : RegexPatternsContants.patterns) {
 			m = pattern.matcher(s);
 			if (m.matches()) {
-				if (pattern.equals(RegexPatternsContants.EMAIL) && !s.toLowerCase().startsWith("mailto:")) {
+				if (pattern.equals(RegexPatternsContants.EMAIL)) {
 					res = "mailto:" + s;
 				}
 				else if (pattern.equals(RegexPatternsContants.HYPER_LINK) && !s.toLowerCase().startsWith("http")) {

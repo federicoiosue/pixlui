@@ -30,7 +30,8 @@ public class RegexPatternsContants {
 	// Pattern for gathering http:// links
 	public static final Pattern HYPER_LINK = Pattern
 //			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)]");
-			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*[\\S]+\\.[a-zA-Z]{2,6}(\\S)*");
+//			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*[\\S]+\\.[a-zA-Z]{2,6}(\\S)*");
+			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*([^@][\\S])+\\.[a-zA-Z]{2,6}(\\S)*");
 
 	// Pattern for gathering e-mail
 	public static final Pattern EMAIL = Pattern
