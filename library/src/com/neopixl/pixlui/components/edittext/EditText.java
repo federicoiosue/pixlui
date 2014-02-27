@@ -814,10 +814,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		linkableText = new SpannableString(text);
 		listOfLinks = new ArrayList<Hyperlink>();
 		
-//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.HYPER_LINK);
-//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.EMAIL);
-//		gatherLinks(listOfLinks, linkableText, RegexPatternsContants.WWW);
-		
 		for (Pattern pattern : RegexPatternsContants.patterns) {
 			gatherLinks(listOfLinks, linkableText, pattern);
 		}
@@ -881,9 +877,14 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	}
 	
 
-	// sets the Listener for later click propagation purpose
+	// Sets the Listener for later click propagation purpose
 	public void setOnTextLinkClickListener(TextLinkClickListener newListener) {
 		this.mTextLinkClickListener = newListener;
+	}	
+
+	// Retrieves the Listener for links click propagation purpose
+	public TextLinkClickListener getOnTextLinkClickListener() {
+		return this.mTextLinkClickListener;
 	}
 
 	
