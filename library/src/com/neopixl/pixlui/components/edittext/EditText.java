@@ -121,7 +121,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 
 	private InputMethodManager mImm;
 	private long lastClick;
-	private final long DOUBLE_CLICK_DELAY = 300;
+	private final long DOUBLE_CLICK_DELAY = 350;
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
@@ -815,7 +815,8 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		listOfLinks = new ArrayList<Hyperlink>();
 		
 		for (Pattern pattern : RegexPatternsContants.patterns) {
-			gatherLinks(listOfLinks, linkableText, pattern);
+//			gatherLinks(listOfLinks, linkableText, pattern);
+			gatherLinks2(listOfLinks, text.split("\\s"), pattern);
 		}
 
 		for (int i = 0; i < listOfLinks.size(); i++) {
@@ -831,7 +832,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	}
 	
 	
-
 	/**
 	 * Performs the Regex Comparison for the Pattern and adds them to listOfLinks array list
 	 * @param links
@@ -857,6 +857,42 @@ public class EditText extends android.widget.EditText implements OnClickListener
 
 			links.add(spec);
 		}
+	}
+	
+	
+	/**
+	 * Performs the Regex Comparison for the Pattern and adds them to listOfLinks array list
+	 * @param links
+	 * @param s
+	 * @param pattern
+	 */
+	private final void gatherLinks2(ArrayList<Hyperlink> links, String[] words, Pattern pattern) {
+		// Matcher matching the pattern
+		Matcher m;
+		
+		int start = 0;
+		int end = 0;
+		for (String word : words) {
+			m = pattern.matcher(word);
+			end = start + word.length();
+
+			if (m.matches()) {
+
+				// Hyperlink is basically used like a structure for storing the
+				// information about where the link was found.
+				Hyperlink spec = new Hyperlink();
+
+				spec.textSpan = word;
+				spec.span = new InternalURLSpan(spec.textSpan.toString());
+				spec.start = start;
+				spec.end = end;
+
+				links.add(spec);
+			}
+			
+			start = end + 1;
+		}
+		
 	}
 	
 	
