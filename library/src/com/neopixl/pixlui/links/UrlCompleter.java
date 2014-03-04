@@ -23,7 +23,6 @@ import java.util.regex.Pattern;
 public class UrlCompleter {
 
 	public static String complete(String s) {
-		String res = null;
 		// Matcher matching the pattern
 		Matcher m;
 		
@@ -31,14 +30,14 @@ public class UrlCompleter {
 			m = pattern.matcher(s);
 			if (m.matches()) {
 				if (pattern.equals(RegexPatternsContants.EMAIL)) {
-					res = "mailto:" + s;
+					s = "mailto:" + s;
 				}
 				else if (pattern.equals(RegexPatternsContants.HYPER_LINK) && !s.toLowerCase().startsWith("http")) {
-					res = "http://" + s;
+					s = "http://" + s;
 				}
 				break;
 			}
 		}
-		return res;
+		return s;
 	}
 }
