@@ -19,7 +19,7 @@ package com.neopixl.pixlui.links;
 
 import java.util.regex.Pattern;
 
-public class RegexPatternsContants {
+public class RegexPatternsConstants {
 
 	// Pattern for gathering @usernames
 	public static final Pattern SCREEN_NAME = Pattern.compile("(@[a-zA-Z0-9_]+)");
@@ -38,6 +38,9 @@ public class RegexPatternsContants {
 	public static final Pattern EMAIL = Pattern
 			.compile("[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
 
+	// Pattern for gathering phone numbers
+	public static final Pattern PHONE = Pattern.compile("([\\+|0{2}][\\d]{1,3})?[\\d]{6,11}");
+
 	// Pattern for gathering IP adresses
 	public static final Pattern IP_ADDRESS = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
 			+ "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
@@ -46,5 +49,5 @@ public class RegexPatternsContants {
 	/**
 	 * Insert here the pattern you want to match in EditText
 	 */
-	public static final Pattern[] patterns = { HYPER_LINK, EMAIL };
+	public static final Pattern[] patterns = { HYPER_LINK, EMAIL, PHONE };
 }

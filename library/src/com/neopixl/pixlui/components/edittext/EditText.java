@@ -28,8 +28,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -64,7 +62,7 @@ import com.neopixl.pixlui.intern.CustomPasswordTransformationMethod;
 import com.neopixl.pixlui.intern.PixlUIContants;
 import com.neopixl.pixlui.links.Hyperlink;
 import com.neopixl.pixlui.links.InternalURLSpan;
-import com.neopixl.pixlui.links.RegexPatternsContants;
+import com.neopixl.pixlui.links.RegexPatternsConstants;
 import com.neopixl.pixlui.links.TextLinkClickListener;
 import com.neopixl.pixlui.links.UrlCompleter;
 
@@ -594,6 +592,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	private class CustomTextWatcher implements TextWatcher{
 
 		private EditText mEdittext;
+		private String previousText;
 
 		public CustomTextWatcher(EditText editText) {
 			super();
@@ -619,6 +618,16 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			if(listener!=null && count == 1){
 				listener.addNewChar(getEdittext());
 			}
+			
+//			// Catching space pressed		
+//			if (previousText != null) {
+//				CharSequence c = s.toString().replaceAll(previousText.toString(), "");		
+//				if (" ".equals(c)) {
+//					Log.d("PixlUI", "space inserted");
+//					gatherLinksForText();
+//				}
+//			}
+//			previousText = s.toString();			
 			
 			updateLinksSpan(start, count - before);
 		}
@@ -814,7 +823,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		linkableText = new SpannableString(text);
 		listOfLinks = new ArrayList<Hyperlink>();
 		
-		for (Pattern pattern : RegexPatternsContants.patterns) {
+		for (Pattern pattern : RegexPatternsConstants.patterns) {
 //			gatherLinks(listOfLinks, linkableText, pattern);
 			gatherLinks2(listOfLinks, text.split("\\s"), pattern);
 		}

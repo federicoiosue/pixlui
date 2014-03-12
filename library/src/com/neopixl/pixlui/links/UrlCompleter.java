@@ -26,18 +26,34 @@ public class UrlCompleter {
 		// Matcher matching the pattern
 		Matcher m;
 		
-		for (Pattern pattern : RegexPatternsContants.patterns) {
-			m = pattern.matcher(s);
-			if (m.matches()) {
-				if (pattern.equals(RegexPatternsContants.EMAIL)) {
-					s = "mailto:" + s;
-				}
-				else if (pattern.equals(RegexPatternsContants.HYPER_LINK) && !s.toLowerCase().startsWith("http")) {
-					s = "http://" + s;
-				}
-				break;
-			}
+//		for (Pattern pattern : RegexPatternsConstants.patterns) {
+//			m = pattern.matcher(s);
+//			if (m.matches()) {
+//				if (pattern.equals(RegexPatternsConstants.EMAIL)) {
+//					s = "mailto:" + s;
+//				}
+//				else if (pattern.equals(RegexPatternsConstants.HYPER_LINK) && !s.toLowerCase().startsWith("http")) {
+//					s = "http://" + s;
+//				}
+//				else if (pattern.equals(RegexPatternsConstants.PHONE)) {
+//					s = "tel:" + s;
+//				}
+//				break;
+//			}
+//		}
+
+		if (RegexPatternsConstants.EMAIL.matcher(s).matches()) {
+			s = "mailto:" + s;
 		}
+		else if (RegexPatternsConstants.HYPER_LINK.matcher(s).matches() && !s.toLowerCase().startsWith("http")) {
+			s = "http://" + s;
+		}
+		else if (RegexPatternsConstants.PHONE.matcher(s).matches()) {
+			s = "tel:" + s;
+		}
+		
+		
+		
 		return s;
 	}
 }
