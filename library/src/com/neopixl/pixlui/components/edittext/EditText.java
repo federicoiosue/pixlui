@@ -132,7 +132,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		editTextVersion();
 
 		setOnClickListener(this);
-		setLinkTextColor(getCurrentTextColor());
+		setLinkTextColor(getTextColors());
 	}
 
 	public EditText(Context context, AttributeSet attrs) {
