@@ -49,5 +49,5 @@ public class RegexPatternsConstants {
 	/**
 	 * Insert here the pattern you want to match in EditText
 	 */
-	public static final Pattern[] patterns = { HYPER_LINK, EMAIL, PHONE };
+	public static final Pattern[] patterns = { HYPER_LINK, EMAIL, PHONE, HASH_TAG};
 }

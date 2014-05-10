@@ -17,42 +17,27 @@ permissions and limitations under the License.
  */
 package com.neopixl.pixlui.links;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Locale;
+
 
 public class UrlCompleter {
+	
+	public static final String HASHTAG_SCHEME = "hashtag:";
 
 	public static String complete(String s) {
-		// Matcher matching the pattern
-		Matcher m;
-		
-//		for (Pattern pattern : RegexPatternsConstants.patterns) {
-//			m = pattern.matcher(s);
-//			if (m.matches()) {
-//				if (pattern.equals(RegexPatternsConstants.EMAIL)) {
-//					s = "mailto:" + s;
-//				}
-//				else if (pattern.equals(RegexPatternsConstants.HYPER_LINK) && !s.toLowerCase().startsWith("http")) {
-//					s = "http://" + s;
-//				}
-//				else if (pattern.equals(RegexPatternsConstants.PHONE)) {
-//					s = "tel:" + s;
-//				}
-//				break;
-//			}
-//		}
 
 		if (RegexPatternsConstants.EMAIL.matcher(s).matches()) {
 			s = "mailto:" + s;
 		}
-		else if (RegexPatternsConstants.HYPER_LINK.matcher(s).matches() && !s.toLowerCase().startsWith("http")) {
+		else if (RegexPatternsConstants.HYPER_LINK.matcher(s).matches() && !s.toLowerCase(Locale.getDefault()).startsWith("http")) {
 			s = "http://" + s;
 		}
 		else if (RegexPatternsConstants.PHONE.matcher(s).matches()) {
 			s = "tel:" + s;
 		}
-		
-		
+		else if (RegexPatternsConstants.HASH_TAG.matcher(s).matches()) {
+			s = HASHTAG_SCHEME + s;
+		}
 		
 		return s;
 	}
