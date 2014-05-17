@@ -90,8 +90,8 @@ public class TextView extends EllipsizingTextView {
 				PixlUIContants.SCHEMA_URL, TEXTVIEW_ATTRIBUTE_FONT_NAME);
 
 		if (typefaceName != null) {
-			setPaintFlags(this.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG
-					| Paint.LINEAR_TEXT_FLAG);
+//			setPaintFlags(this.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG
+//					| Paint.LINEAR_TEXT_FLAG);
 			setCustomFont(ctx, typefaceName);
 		}
 	}

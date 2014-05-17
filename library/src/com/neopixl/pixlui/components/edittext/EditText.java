@@ -201,8 +201,8 @@ public class EditText extends android.widget.EditText implements OnClickListener
 				PixlUIContants.SCHEMA_URL, EDITTEXT_ATTRIBUTE_FONT_NAME);
 
 		if (typefaceName != null) {
-			setPaintFlags(this.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG
-					| Paint.LINEAR_TEXT_FLAG);
+//			setPaintFlags(this.getPaintFlags() | Paint.SUBPIXEL_TEXT_FLAG
+//					| Paint.LINEAR_TEXT_FLAG);
 			setCustomFont(ctx, typefaceName);
 		}
 	}
