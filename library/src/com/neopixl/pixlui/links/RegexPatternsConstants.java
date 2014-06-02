@@ -25,15 +25,11 @@ public class RegexPatternsConstants {
 	public static final Pattern SCREEN_NAME = Pattern.compile("(@[a-zA-Z0-9_]+)");
 
 	// Pattern for gathering #hasttags
-//	public static final Pattern HASH_TAG = Pattern.compile("(#[a-zA-Z0-9_-]+)");
-//	public static final Pattern HASH_TAG = Pattern.compile("(?:\\s|\\A)[##]+([A-Za-z0-9-_]+)");
-	public static final Pattern HASH_TAG = Pattern.compile("(?:\\s|\\A)[##]+([A-Za-z]+[\\w]*)");
-	
+//	public static final Pattern HASH_TAG = Pattern.compile("(?:\\s|\\A)[##]+([A-Za-z]+[\\w]*)");
+	public static final Pattern HASH_TAG = Pattern.compile("(?:\\s|\\A)[##]+([\\p{L}]+[\\w]*)");
+		
 	// Pattern for gathering http:// links
 	public static final Pattern HYPER_LINK = Pattern
-//			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*[^ ,'\'>\\]\\)]*[^\\. ,'\'>\\]\\)]");
-//			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*[\\S]+\\.[a-zA-Z]{2,6}(\\S)*");
-//			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*([^@\\s])+\\.[a-zA-Z]{2,6}(\\S)*");
 			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*([^@\\s])+\\.[a-zA-Z]{2,6}(\\/(\\S)*)*");
 
 	// Pattern for gathering e-mail
