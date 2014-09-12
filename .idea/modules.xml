@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PixlUI-Studio.iml" filepath="$PROJECT_DIR$/PixlUI-Studio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pixlUI/pixlUI.iml" filepath="$PROJECT_DIR$/pixlUI/pixlUI.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pixlUISample/pixlUISample.iml" filepath="$PROJECT_DIR$/pixlUISample/pixlUISample.iml" />
+    </modules>
+  </component>
+</project>
+
