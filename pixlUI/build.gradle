@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 
+
 android {
     compileSdkVersion 19
     buildToolsVersion "20.0.0"
@@ -17,3 +18,16 @@ android {
         }
     }
 }
+
+apply plugin: 'maven'
+group 'it.feio.android'
+version '2.0'
+def archives = uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+        }
+    }
+}
+archives
+task install(dependsOn: uploadArchives)

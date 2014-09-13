@@ -1,2 +1,4 @@
+rootProject.name = 'pixlui'
+
 include ':pixlUI'
 include ':pixlUISample'
