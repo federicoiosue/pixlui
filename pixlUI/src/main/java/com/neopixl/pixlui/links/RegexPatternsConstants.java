@@ -37,7 +37,7 @@ public class RegexPatternsConstants {
 			.compile("[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})");
 
 	// Pattern for gathering phone numbers
-	public static final Pattern PHONE = Pattern.compile("([\\+|0{2}][\\d]{1,3})?[\\d]{6,11}");
+	public static final Pattern PHONE = Pattern.compile("([\\+|0{2}][\\d]{1,3})?([\\d]{1,3}\\-)*[\\d]{1,11}");
 
 	// Pattern for gathering IP adresses
 	public static final Pattern IP_ADDRESS = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
