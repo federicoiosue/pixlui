@@ -18,17 +18,10 @@ permissions and limitations under the License.
 package com.neopixl.pixlui.components.edittext;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.SystemClock;
@@ -60,11 +53,18 @@ import com.android.export.AllCapsTransformationMethod;
 import com.neopixl.pixlui.components.textview.FontFactory;
 import com.neopixl.pixlui.intern.CustomPasswordTransformationMethod;
 import com.neopixl.pixlui.intern.PixlUIContants;
-import com.neopixl.pixlui.links.Hyperlink;
-import com.neopixl.pixlui.links.InternalURLSpan;
-import com.neopixl.pixlui.links.RegexPatternsConstants;
-import com.neopixl.pixlui.links.TextLinkClickListener;
-import com.neopixl.pixlui.links.UrlCompleter;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import it.feio.android.pixlui.links.Hyperlink;
+import it.feio.android.pixlui.links.InternalURLSpan;
+import it.feio.android.pixlui.links.RegexPatternsConstants;
+import it.feio.android.pixlui.links.TextLinkClickListener;
+import it.feio.android.pixlui.links.UrlCompleter;
 
 /**
  * Provide more possibility with EditText and enable new methods on old api

@@ -15,13 +15,14 @@ ANY KIND, either express or implied. See the License for the specific language g
 
 permissions and limitations under the License.
  */
-package com.neopixl.pixlui.links;
+package it.feio.android.pixlui.links;
 
-//Class for storing the information about the Link Location
+import android.view.View;
 
-public class Hyperlink {
-	public CharSequence textSpan;
-	public InternalURLSpan span;
-	public int start;
-	public int end;
+public interface TextLinkClickListener {
+
+	// This method is called when the TextLink is clicked from
+	// LinkEnabledTextView
+
+	public void onTextLinkClick(View view, String clickedString, String url);
 }

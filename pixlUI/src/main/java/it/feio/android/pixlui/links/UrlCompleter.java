@@ -15,7 +15,7 @@ ANY KIND, either express or implied. See the License for the specific language g
 
 permissions and limitations under the License.
  */
-package com.neopixl.pixlui.links;
+package it.feio.android.pixlui.links;
 
 import java.util.Locale;
 
