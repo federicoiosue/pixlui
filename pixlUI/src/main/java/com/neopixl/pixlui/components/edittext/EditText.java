@@ -118,8 +118,6 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	private boolean mCustomPassWordTransformation;
 
 	private InputMethodManager mImm;
-	private long lastClick;
-	private final long DOUBLE_CLICK_DELAY = 350;
 
 	@Override
 	public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
@@ -141,7 +139,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		setCustomFont(context, attrs);
 		setDisableCopyAndPaste(context, attrs);
 		setCancelClipboard(context, attrs);
-		setAutoFocus(context,attrs);
+		setAutoFocus(context, attrs);
 		if (isOldDeviceTextAllCaps()) {
 			setAllCaps(context, attrs);
 		}
@@ -341,7 +339,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		if (android.os.Build.VERSION.SDK_INT < 11) {
 			this.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
 				public void onCreateContextMenu(ContextMenu menu, View v,
-						ContextMenuInfo menuInfo) {
+												ContextMenuInfo menuInfo) {
 					menu.clear();
 				}
 			});
@@ -418,10 +416,9 @@ public class EditText extends android.widget.EditText implements OnClickListener
 			mImm.toggleSoftInput(0, 0);
 		}
 		
-		// Registers time for measuring a double-click event
-		if (focused) {
-			lastClick = Calendar.getInstance().getTimeInMillis();
-			Log.v("PixlUI", "onFocusChanged() on '" + getText() + "' " );
+		// Checks link clicked
+		if (focused && mTextLinkClickListener != null) {
+			onClick(this);
 		}
 	}
 
@@ -451,8 +448,16 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	 * Force hide keyboard
 	 */
 	public void hideKeyboard() {
-		this.clearFocus();		
+		hideKeyboard(true);
+	}
 
+	/**
+	 * Force hide keyboard optionally without loosing focus
+	 */
+	public void hideKeyboard(boolean clearFocus) {
+		if (clearFocus) {
+			this.clearFocus();
+		}
 		Context context = getContext();
 		if(Activity.class.isInstance(context)) {
 			((Activity)context).getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
@@ -932,26 +937,23 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		return this.mTextLinkClickListener;
 	}
 
-	
 
 	@Override
 	public void onClick(View v) {
-		long now = Calendar.getInstance().getTimeInMillis();
-		long delay = now - lastClick;
-		lastClick = now;
-		Log.v("PixlUI", "onClick() on '" + ((EditText)v).getText() + "' delay " + delay);
-		if (delay < DOUBLE_CLICK_DELAY ) {
-			if (mTextLinkClickListener != null) {
-				int cursorPosition = getSelectionStart();
-				Log.v("PixlUI", "onClick() on position " + cursorPosition);
-				for (Hyperlink link : listOfLinks) {
-					if (cursorPosition >= link.start && cursorPosition <= link.end) {
-						this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString(), UrlCompleter.complete(link.textSpan.toString()));
-					}
+		if (mTextLinkClickListener != null) {
+			int cursorPosition = getSelectionStart();
+			Log.v("PixlUI", "onClick() on position " + cursorPosition);
+			for (Hyperlink link : listOfLinks) {
+				if (cursorPosition > link.start && cursorPosition < link.end) {
+					this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString(), UrlCompleter.complete
+							(link.textSpan.toString()));
 				}
 			}
 		}
 	}
 
-	
+
+
+
+
 }
