@@ -5,17 +5,17 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.neopixl.pixluisample"
+//        applicationId "com.neopixl.pixluisample"
         minSdkVersion 8
         targetSdkVersion 17
     }
 
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
+//    buildTypes {
+//        release {
+//            runProguard false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//        }
+//    }
 }
 
 dependencies {

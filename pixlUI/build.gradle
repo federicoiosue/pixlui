@@ -6,22 +6,22 @@ android {
     buildToolsVersion "20.0.0"
 
     defaultConfig {
-        applicationId "com.neopixl.pixlui"
+//        applicationId "com.neopixl.pixlui"
         minSdkVersion 8
         targetSdkVersion 19
     }
 
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-        }
-    }
+//    buildTypes {
+//        release {
+//            runProguard false
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+//        }
+//    }
 }
 
 apply plugin: 'maven'
 group 'it.feio.android'
-version '2.1'
+version '2.2'
 def archives = uploadArchives {
     repositories {
         mavenDeployer {
@@ -36,7 +36,7 @@ task install(dependsOn: uploadArchives)
 task writeNewPom << {
     pom {
         project {
-            inceptionYear '2008'
+            inceptionYear '2015'
             licenses {
                 license {
                     name 'The Apache Software License, Version 2.0'
