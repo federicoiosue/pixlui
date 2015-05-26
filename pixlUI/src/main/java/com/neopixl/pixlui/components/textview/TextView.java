@@ -152,7 +152,7 @@ public class TextView extends EllipsizingTextView {
 	 * @return
 	 */ 
 	public boolean setCustomFont(Context ctx, String font) {
-		Typeface tf = FontFactory.getInstance(ctx).getFont(font);
+		Typeface tf = FontFactory.getInstance(ctx.getApplicationContext()).getFont(font);
 		if (tf != null) {
 			setTypeface(tf);
 			return true;
