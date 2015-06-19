@@ -54,9 +54,11 @@ import com.neopixl.pixlui.components.textview.FontFactory;
 import com.neopixl.pixlui.intern.CustomPasswordTransformationMethod;
 import com.neopixl.pixlui.intern.PixlUIContants;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -79,7 +81,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 	// SpannableString linkableText;
 	// Populating and gathering all the links that are present in the Text
 	private ArrayList<Hyperlink> listOfLinks;
-	private TextLinkClickListener mTextLinkClickListener;
+	private WeakReference<TextLinkClickListener> textLinkClickListenerWeakReference;
 
 	/**
 	 * XML Attribute
@@ -417,7 +419,7 @@ public class EditText extends android.widget.EditText implements OnClickListener
 		}
 		
 		// Checks link clicked
-		if (focused && mTextLinkClickListener != null) {
+		if (focused && textLinkClickListenerWeakReference != null) {
 			onClick(this);
 		}
 	}
@@ -929,24 +931,30 @@ public class EditText extends android.widget.EditText implements OnClickListener
 
 	// Sets the Listener for later click propagation purpose
 	public void setOnTextLinkClickListener(TextLinkClickListener newListener) {
-		this.mTextLinkClickListener = newListener;
+		WeakReference<TextLinkClickListener> textLinkClickListenerWeakReference = new WeakReference
+				<TextLinkClickListener>(newListener);
+		this.textLinkClickListenerWeakReference = textLinkClickListenerWeakReference;
 	}	
 
 	// Retrieves the Listener for links click propagation purpose
 	public TextLinkClickListener getOnTextLinkClickListener() {
-		return this.mTextLinkClickListener;
+		if (textLinkClickListenerWeakReference != null) {
+			return this.textLinkClickListenerWeakReference.get();
+		}
+		return null;
 	}
 
 
 	@Override
 	public void onClick(View v) {
-		if (mTextLinkClickListener != null) {
+		if (textLinkClickListenerWeakReference != null) {
 			int cursorPosition = getSelectionStart();
 			Log.v("PixlUI", "onClick() on position " + cursorPosition);
 			for (Hyperlink link : listOfLinks) {
 				if (cursorPosition > link.start && cursorPosition < link.end) {
-					this.mTextLinkClickListener.onTextLinkClick(v, link.textSpan.toString(), UrlCompleter.complete
-							(link.textSpan.toString()));
+					this.textLinkClickListenerWeakReference.get().onTextLinkClick(v, link.textSpan.toString(),
+							UrlCompleter.complete
+									(link.textSpan.toString()));
 				}
 			}
 		}
