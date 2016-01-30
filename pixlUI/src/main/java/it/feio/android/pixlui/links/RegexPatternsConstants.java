@@ -25,8 +25,8 @@ public class RegexPatternsConstants {
 	public static final Pattern SCREEN_NAME = Pattern.compile("(@[a-zA-Z0-9_]+)");
 
 	// Pattern for gathering #hasttags
-	public static final Pattern HASH_TAG = Pattern.compile("(?:\\s|\\A)[##]+([\\p{L}]+[\\w]*)");
-		
+	public static final Pattern HASH_TAG = Pattern.compile("\\B#\\w*[a-zA-Z]+\\w*");
+
 	// Pattern for gathering http:// links
 	public static final Pattern HYPER_LINK = Pattern
 			.compile("([Hh][tT][tT][pP][sS]?:\\/\\/)*([wW][wW][wW]\\.)*([^@\\s])+\\.[a-zA-Z]{2,6}(\\/(\\S)*)*");
