@@ -36,5 +36,21 @@ public class UrlCompleterTest {
 
 		String numericHashtag = "#123Stella";
 		Assert.assertEquals(UrlCompleter.complete(numericHashtag), UrlCompleter.HASHTAG_SCHEME + numericHashtag);
+
+		String numericWithUnderscoreHashtag = "#_123Stella";
+		Assert.assertEquals(UrlCompleter.complete(numericWithUnderscoreHashtag), UrlCompleter.HASHTAG_SCHEME +
+				numericWithUnderscoreHashtag);
+	}
+
+	@Test
+	public void testCompleteHashtagRussian() {
+		String hashtag = "#привет";
+		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
+	}
+
+	@Test
+	public void testCompleteHashtagChinese() {
+		String hashtag = "#中华人民共和国";
+		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
 	}
 }
