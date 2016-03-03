@@ -2,18 +2,18 @@ apply plugin: 'com.android.library'
 
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         minSdkVersion 8
-        targetSdkVersion 19
+        targetSdkVersion 23
     }
 }
 
 apply plugin: 'maven'
 group 'it.feio.android'
-version '2.3'
+version '2.4'
 def archives = uploadArchives {
     repositories {
         mavenDeployer {
