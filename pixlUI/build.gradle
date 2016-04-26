@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 
-
+project.archivesBaseName = 'pixlui'
 group 'com.github.federicoiosue'
 version '2.6'
 
