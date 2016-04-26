@@ -53,4 +53,12 @@ public class UrlCompleterTest {
 		String hashtag = "#中华人民共和国";
 		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
 	}
+
+	@Test
+	public void testCompleteHashtagWithSpecialChars() {
+		String hashtag = "#area/bau.ui";
+		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
+		String postfix = " spacedWord";
+		Assert.assertFalse(UrlCompleter.complete(hashtag + postfix).startsWith(UrlCompleter.HASHTAG_SCHEME));
+	}
 }

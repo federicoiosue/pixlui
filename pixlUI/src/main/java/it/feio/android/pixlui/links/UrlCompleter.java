@@ -29,14 +29,14 @@ public class UrlCompleter {
 		if (RegexPatternsConstants.EMAIL.matcher(s).matches()) {
 			s = "mailto:" + s;
 		}
+		else if (RegexPatternsConstants.HASH_TAG.matcher(s).matches()) {
+			s = HASHTAG_SCHEME + s;
+		}
 		else if (RegexPatternsConstants.HYPER_LINK.matcher(s).matches() && !s.toLowerCase(Locale.getDefault()).startsWith("http")) {
 			s = "http://" + s;
 		}
 		else if (RegexPatternsConstants.PHONE.matcher(s).matches()) {
 			s = "tel:" + s;
-		}
-		else if (RegexPatternsConstants.HASH_TAG.matcher(s).matches()) {
-			s = HASHTAG_SCHEME + s;
 		}
 		
 		return s;
