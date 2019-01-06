@@ -26,39 +26,46 @@ public class UrlCompleterTest {
 	@Test
 	public void testCompleteEmail() {
 		String email = "test-email@email.com";
-		Assert.assertEquals(UrlCompleter.complete(email), "mailto:" + email);
+		Assert.assertEquals("mailto:" + email, UrlCompleter.complete(email));
+	}
+
+	@Test
+	public void testNumericHashtagFailing() {
+		String numericHashtag = "#123Star";
+		Assert.assertEquals(numericHashtag, UrlCompleter.complete(numericHashtag));
+
+		String numericWithUnderscoreHashtag = "#_123Star";
+		Assert.assertEquals(numericWithUnderscoreHashtag, UrlCompleter.complete(numericWithUnderscoreHashtag));
+	}
+
+	@Test
+	public void testNumericHashtag() {
+		String numericPostfixHashtag = "#Star123";
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + numericPostfixHashtag, UrlCompleter.complete(numericPostfixHashtag));
 	}
 
 	@Test
 	public void testCompleteHashtag() {
 		String hashtag = "#testHashtag";
-		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
-
-		String numericHashtag = "#123Stella";
-		Assert.assertEquals(UrlCompleter.complete(numericHashtag), UrlCompleter.HASHTAG_SCHEME + numericHashtag);
-
-		String numericWithUnderscoreHashtag = "#_123Stella";
-		Assert.assertEquals(UrlCompleter.complete(numericWithUnderscoreHashtag), UrlCompleter.HASHTAG_SCHEME +
-				numericWithUnderscoreHashtag);
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagRussian() {
 		String hashtag = "#привет";
-		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagChinese() {
 		String hashtag = "#中华人民共和国";
-		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagWithSpecialChars() {
 		String hashtag = "#area/bau.ui";
-		Assert.assertEquals(UrlCompleter.complete(hashtag), UrlCompleter.HASHTAG_SCHEME + hashtag);
-		String postfix = " spacedWord";
-		Assert.assertFalse(UrlCompleter.complete(hashtag + postfix).startsWith(UrlCompleter.HASHTAG_SCHEME));
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + "#area", UrlCompleter.complete(hashtag));
 	}
+
 }

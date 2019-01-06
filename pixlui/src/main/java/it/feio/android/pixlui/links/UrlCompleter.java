@@ -18,6 +18,7 @@ permissions and limitations under the License.
 package it.feio.android.pixlui.links;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
 
 
 public class UrlCompleter {
@@ -26,19 +27,29 @@ public class UrlCompleter {
 
 	public static String complete(String s) {
 
+		String urlCompleted = s;
+
 		if (RegexPatternsConstants.EMAIL.matcher(s).matches()) {
-			s = "mailto:" + s;
+			urlCompleted = "mailto:" + s;
 		}
-		else if (RegexPatternsConstants.HASH_TAG.matcher(s).matches()) {
-			s = HASHTAG_SCHEME + s;
+		else if (RegexPatternsConstants.HASH_TAG.matcher(s).find()) {
+			urlCompleted = HASHTAG_SCHEME + parseHashtag(s);
 		}
 		else if (RegexPatternsConstants.HYPER_LINK.matcher(s).matches() && !s.toLowerCase(Locale.getDefault()).startsWith("http")) {
-			s = "http://" + s;
+			urlCompleted = "http://" + s;
 		}
 		else if (RegexPatternsConstants.PHONE.matcher(s).matches()) {
-			s = "tel:" + s;
+			urlCompleted = "tel:" + s;
 		}
 		
-		return s;
+		return urlCompleted;
+	}
+
+	public static String parseHashtag(String token) {
+		Matcher matcher = RegexPatternsConstants.HASH_TAG.matcher(token);
+		if (matcher.find()) {
+			return matcher.group();
+		}
+		return "";
 	}
 }
