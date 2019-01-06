@@ -1,8 +1,6 @@
 # built application files
 *.apk
 *.ap_
-*.jar
-!gradle/wrapper/gradle-wrapper.jar
 
 # lint folder
 lint
@@ -50,3 +48,11 @@ Thumbs.db
 # gradle directory
 .gradle
 build/
+
+# Android Studio
+.navigation
+captures
+
+*.log
+
+\.directory
