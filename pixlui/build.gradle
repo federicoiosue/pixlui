@@ -1,20 +1,30 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 
 //project.archivesBaseName = 'pixlui'
-group 'com.github.federicoiosue'
-version '2.6'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 23
+        minSdkVersion project.MIN_SDK
+        targetSdkVersion project.TARGET_SDK
     }
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
+
+apply plugin: 'maven'
+group GROUP
+version VERSION_NAME
+def archives = uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+        }
+    }
+}
+archives
+task install(dependsOn: uploadArchives)

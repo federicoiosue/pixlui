@@ -1,13 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    compileSdkVersion 27
+    version
+    buildToolsVersion '28.0.3'
 
     defaultConfig {
 //        applicationId "com.neopixl.pixluisample"
-        minSdkVersion 8
-        targetSdkVersion 17
+        applicationId project.PACKAGE
+        minSdkVersion project.MIN_SDK
+        targetSdkVersion project.TARGET_SDK
+        versionName project.VERSION_NAME
+        versionCode Integer.parseInt(project.VERSION_CODE)
     }
 
 //    buildTypes {
@@ -19,6 +23,7 @@ android {
 }
 
 dependencies {
-    compile project(':pixlui')
-    compile 'com.android.support:support-v4:19.1.0'
+    implementation project(':pixlui')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+
 }
