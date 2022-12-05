@@ -20,8 +20,7 @@ package it.feio.android.pixlui.links;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-//This is class which gives us the clicks on the links which we then can
-// use.
+//This is class which gives us the clicks on the links which we then can use.
 
 public class InternalURLSpan extends ClickableSpan {
 	private String clickedSpan;

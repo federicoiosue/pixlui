@@ -13,6 +13,10 @@ android {
 }
 
 dependencies {
+    testImplementation project(path: ':pixlui')
+    compileOnly "org.projectlombok:lombok:1.18.24"
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
     testImplementation 'junit:junit:4.12'
 }
 

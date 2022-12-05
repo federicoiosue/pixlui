@@ -17,6 +17,9 @@ permissions and limitations under the License.
  */
 package it.feio.android.pixlui.links;
 
+import static it.feio.android.pixlui.links.UrlCompleter.HASHTAG_SCHEME;
+import static it.feio.android.pixlui.links.UrlCompleter.complete;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -26,46 +29,64 @@ public class UrlCompleterTest {
 	@Test
 	public void testCompleteEmail() {
 		String email = "test-email@email.com";
-		Assert.assertEquals("mailto:" + email, UrlCompleter.complete(email));
+		Assert.assertEquals("mailto:" + email, complete(email));
 	}
 
 	@Test
 	public void testNumericHashtagFailing() {
 		String numericHashtag = "#123Star";
-		Assert.assertEquals(numericHashtag, UrlCompleter.complete(numericHashtag));
+		Assert.assertEquals(numericHashtag, complete(numericHashtag));
 
 		String numericWithUnderscoreHashtag = "#_123Star";
-		Assert.assertEquals(numericWithUnderscoreHashtag, UrlCompleter.complete(numericWithUnderscoreHashtag));
+		Assert.assertEquals(numericWithUnderscoreHashtag, complete(numericWithUnderscoreHashtag));
 	}
 
 	@Test
 	public void testNumericHashtag() {
 		String numericPostfixHashtag = "#Star123";
-		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + numericPostfixHashtag, UrlCompleter.complete(numericPostfixHashtag));
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + numericPostfixHashtag, complete(numericPostfixHashtag));
 	}
 
 	@Test
 	public void testCompleteHashtag() {
 		String hashtag = "#testHashtag";
-		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagRussian() {
 		String hashtag = "#привет";
-		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagChinese() {
 		String hashtag = "#中华人民共和国";
-		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, UrlCompleter.complete(hashtag));
+		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + hashtag, complete(hashtag));
 	}
 
 	@Test
 	public void testCompleteHashtagWithSpecialChars() {
 		String hashtag = "#area/bau.ui";
-		Assert.assertEquals(UrlCompleter.HASHTAG_SCHEME + "#area", UrlCompleter.complete(hashtag));
+		Assert.assertEquals(HASHTAG_SCHEME + "#area", complete(hashtag));
+	}
+
+	@Test
+	public void testHyperlink() {
+		String url = "google.com";
+		Assert.assertTrue(complete(url).startsWith("http://"));
+	}
+
+	@Test
+	public void testHyperlink_withSslPrefix() {
+		String url = "https://reload.alphacomm.network/web/ah";
+		Assert.assertTrue(complete(url).startsWith("https"));
+	}
+
+	@Test
+	public void testHyperlink_complex() {
+		String url = "https://www.anysite.com/1/anysite/3803/product-model/522/elegant-80#toggleOtherComments";
+		Assert.assertTrue(complete(url).startsWith("https://"));
 	}
 
 }
