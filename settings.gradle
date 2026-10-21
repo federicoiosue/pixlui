@@ -1,2 +1,2 @@
-include ':pixlui'
+include ':pixlUI'
 include ':pixlUISample'

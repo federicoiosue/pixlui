@@ -1,20 +1,18 @@
 buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
-        jcenter()
         google()
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
     }
 }
 
 allprojects {
     repositories {
         mavenLocal()
-        jcenter()
         google()
+        mavenCentral()
     }
-    apply plugin: 'maven'
 }
