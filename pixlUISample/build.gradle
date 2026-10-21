@@ -14,5 +14,5 @@ android {
 }
 
 dependencies {
-    implementation project(':pixlUI')
+    implementation project(':pixlui')
 }

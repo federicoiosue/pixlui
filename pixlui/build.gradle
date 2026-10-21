@@ -36,9 +36,9 @@ dependencies {
 publishing {
     publications {
         release(MavenPublication) {
-            groupId project.GROUP
+            groupId project.findProperty('GROUP')
             artifactId 'pixlui'
-            version project.VERSION_NAME
+            version project.version == 'unspecified' ? project.findProperty('VERSION_NAME') : project.version
         }
     }
     repositories {
