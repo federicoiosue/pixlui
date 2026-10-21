@@ -1,29 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    version
-    buildToolsVersion '28.0.3'
+    namespace 'com.neopixl.pixluisample'
+    compileSdk 36
 
     defaultConfig {
-//        applicationId "com.neopixl.pixluisample"
         applicationId project.PACKAGE
-        minSdkVersion project.MIN_SDK
-        targetSdkVersion project.TARGET_SDK
+        minSdk project.MIN_SDK as Integer
+        targetSdk project.TARGET_SDK as Integer
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
-
-//    buildTypes {
-//        release {
-//            runProguard false
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-//        }
-//    }
 }
 
 dependencies {
     implementation project(':pixlui')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-
 }

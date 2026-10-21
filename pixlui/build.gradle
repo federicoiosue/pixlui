@@ -1,34 +1,51 @@
 apply plugin: 'com.android.library'
-
-//project.archivesBaseName = 'pixlui'
+apply plugin: 'maven-publish'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '28.0.3'
+    namespace 'com.neopixl.pixlui'
+    compileSdk 36
 
     defaultConfig {
-        minSdkVersion project.MIN_SDK
-        targetSdkVersion project.TARGET_SDK
+        minSdk project.MIN_SDK as Integer
+        targetSdk project.TARGET_SDK as Integer
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
     }
 }
 
 dependencies {
-    testImplementation project(path: ':pixlui')
-    compileOnly "org.projectlombok:lombok:1.18.24"
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.48'
+    annotationProcessor 'org.projectlombok:lombok:1.18.48'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 }
 
-apply plugin: 'maven'
-group GROUP
-version VERSION_NAME
-def archives = uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository url: 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+publishing {
+    publications {
+        release(MavenPublication) {
+            groupId project.findProperty('GROUP')
+            artifactId 'pixlui'
+            version project.version == 'unspecified' ? project.findProperty('VERSION_NAME') : project.version
         }
     }
+    repositories {
+        mavenLocal()
+    }
 }
-archives
-task install(dependsOn: uploadArchives)
+
+afterEvaluate {
+    publishing.publications.release.from(components.release)
+}

@@ -1,0 +1,4 @@
+jdk:
+  - openjdk17
+install:
+  - ./gradlew :pixlui:clean :pixlui:publishToMavenLocal -Pgroup=$GROUP -Pversion=$VERSION

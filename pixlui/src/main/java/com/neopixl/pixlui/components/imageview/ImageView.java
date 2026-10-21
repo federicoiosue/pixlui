@@ -136,7 +136,7 @@ public class ImageView extends android.widget.ImageView {
 	public void onDraw(Canvas canvas){
 		if(mAlpha!=1){
 			int drawedAlpha = (int) (mAlpha * 100);
-			canvas.saveLayerAlpha(0, 0, canvas.getWidth(), canvas.getHeight(), drawedAlpha, Canvas.HAS_ALPHA_LAYER_SAVE_FLAG);
+			canvas.saveLayerAlpha(0, 0, canvas.getWidth(), canvas.getHeight(), drawedAlpha, Canvas.ALL_SAVE_FLAG);
 		}
 		super.onDraw(canvas);
 	}

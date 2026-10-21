@@ -17,6 +17,7 @@ permissions and limitations under the License.
  */
 package it.feio.android.pixlui.links;
 
+
 import java.util.Locale;
 import java.util.regex.Matcher;
 import lombok.experimental.UtilityClass;
